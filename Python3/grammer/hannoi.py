@@ -1,3 +1,4 @@
+#coding:utf-8
 def hanoi(n,a,b,c):
 	#只有一个盘的情况
 	if n == 1:
