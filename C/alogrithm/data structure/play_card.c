@@ -12,23 +12,19 @@ struct table
 };
 int i;
 
-void playcard(struct player* player, struct table* table)
+void playcard(struct player* player, struct table* table, int* book)
 {
 	int t=player->queue[player->head];
 	// printf("t=%d\n", t);
-	int flag=0;//判断打出的拍桌面上是否已经存在：0不存在，1存在。
-	for(i=0; i<table->top; i++)
-	{
-		if(t==table->stack[i]){flag=1; break;}
-	}
 
-	if(flag==0)
+	if(book[t]==0)
 	{
 		table->stack[table->top++]=t;
 		player->head++;
+		book[t]=1;
 	}
 
-	else if(flag==1)
+	else
 	{
 		player->queue[player->tail++]=t;
 		player->head++;
@@ -36,9 +32,11 @@ void playcard(struct player* player, struct table* table)
 		{
 			player->queue[player->tail++]=table->stack[table->top-1];
 			table->top--;
+			book[player->queue[player->tail-1]]=0;
 		}
 		player->queue[player->tail++]=table->stack[table->top-1];
 		table->top--;
+		book[t]=0;
 	}
 }
 
@@ -46,10 +44,14 @@ int main(int argc, char const *argv[])
 {
 	struct player a={{2,4,1,2,5,6},0,6}, b={{3,1,3,5,6,4},0,6};
 	struct table s={.top=0};
+	//标记桌面上的牌。
+	int book[10];
+	for(i=0; i<10; i++)
+		book[i]=0;
 
 	while(a.head<a.tail && b.head<b.tail)
 	{
-		playcard(&a, &s);
+		playcard(&a, &s, book);
 		// printf("cards on a: ");
 		// for(i=a.head; i<a.tail; i++)
 		// 	printf("%d", a.queue[i]);
@@ -60,7 +62,7 @@ int main(int argc, char const *argv[])
 		// 	printf("%d", s.stack[i]);
 		// printf("\n");
 		
-		playcard(&b, &s);
+		playcard(&b, &s, book);
 		// printf("cards on b: ");
 		// for(i=b.head; i<b.tail; i++)
 		// 	printf("%d", b.queue[i]);
