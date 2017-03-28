@@ -46,9 +46,6 @@ int main(int argc, char const *argv[])
 {
 	struct player a={{2,4,1,2,5,6},0,6}, b={{3,1,3,5,6,4},0,6};
 	struct table s={.top=0};
-	int book[10];
-	for(i=1; i<10; i++)
-		book[i]=0;
 
 	while(a.head<a.tail && b.head<b.tail)
 	{
