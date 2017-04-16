@@ -5,7 +5,7 @@ struct node
 	int data;
 	struct node *next; 
 };
-//从头开始一次填充链表
+//从头开始依次填充链表
 int main(int argc, char const *argv[])
 {
 	int n,i,a;
@@ -23,7 +23,6 @@ int main(int argc, char const *argv[])
 		else
 			prev->next=now;
 		prev=now;//当前指针变为前一节点指针，now腾出去指向新生成的node，成为新的当前node指针。
-		
 	}
 //从头开始遍历链表
 	temp=head;
@@ -32,6 +31,5 @@ int main(int argc, char const *argv[])
 		printf("%d ", temp->data);
 		temp=temp->next;
 	}
-
-		return 0;
+	return 0;
 }
